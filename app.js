@@ -2,7 +2,8 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const errorController = require('./controller/errorController');
+const successController = require('./controller/successController')
 const app = express();
 
 const adminRoutes = require('./routes/admin');
@@ -16,13 +17,9 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(contact)
 
-app.use('/success', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'success.html'));
-  });
+app.use('/success',successController.success );
 
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-});
+app.use(errorController.get404); 
 
-app.listen(3000);
+app.listen(4000);
 
